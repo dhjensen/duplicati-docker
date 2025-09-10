@@ -1,0 +1,27 @@
+name: Duplicati
+
+services:
+  duplicati:
+    image: duplicati/duplicati:${DUPLICATI_VERSION}
+    container_name: duplicati
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - duplicati-data:/data
+      - /var/lib/docker/volumes:/var/lib/docker/volumes:rw
+    environment:
+      - DUPLICATI__WEBSERVICE_ALLOWED_HOSTNAMES
+      - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_SETTINGS_ENCRYPTION_KEY}
+    ports:
+      - "127.0.0.1:8200:8200"
+    networks:
+      - nginx-proxy-manager_frontend
+    labels:
+      - wud.tag.include=^\d+\.\d+\.\d+.\d+$$
+
+networks:
+  nginx-proxy-manager_frontend:
+    driver: bridge
+    external: true
+
+volumes:
+  duplicati-data:
