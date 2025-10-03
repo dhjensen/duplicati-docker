@@ -2,7 +2,7 @@ name: Duplicati
 
 services:
   duplicati:
-    image: duplicati/duplicati:${DUPLICATI_VERSION}
+    image: duplicati/duplicati:${DUPLICATI_VERSION}-stable
     container_name: duplicati
     volumes:
       - /etc/timezone:/etc/timezone:ro
@@ -14,19 +14,15 @@ services:
     ports:
       - "127.0.0.1:8200:8200"
     networks:
-      - nginx-proxy-manager_frontend
       - backend
     restart: unless-stopped
     labels:
-      - wud.tag.include=^\d+\.\d+\.\d+.\d+$$
+      - wud.tag.include=^\d+\.\d+\.\d+.\d+-stable$$
       - traefik.enable=true
       - traefik.http.routers.duplicati-duplicati-docker.rule=Host(`${DUPLICATI__WEBSERVICE_ALLOWED_HOSTNAMES}`)
 
 networks:
   backend:
-    driver: bridge
-    external: true
-  nginx-proxy-manager_frontend:
     driver: bridge
     external: true
 
