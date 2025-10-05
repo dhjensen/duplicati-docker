@@ -20,6 +20,7 @@ services:
       - wud.tag.include=^\d+\.\d+\.\d+.\d+-stable$$
       - traefik.enable=true
       - traefik.http.routers.duplicati-duplicati-docker.rule=Host(`${DUPLICATI__WEBSERVICE_ALLOWED_HOSTNAMES}`)
+      - traefik.http.routers.duplicati-duplicati-docker.middlewares=ipallowlist@docker
 
 networks:
   backend:
